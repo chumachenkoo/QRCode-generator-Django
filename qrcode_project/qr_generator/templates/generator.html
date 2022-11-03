@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div class="col-md-10 mx-auto col-lg-5">
+        <h1 class="h3 mb-3 fw-normal text-center">QRcode Generator</h1>
+        <form method="post" action="/generator" class="p-4 p-md-5 border rounded-3 bg-light">
+          <div class="form-floating mb-3">
+            <input name="qr_code" type="text" class="form-control" id="floatingInput" placeholder="Information">
+            <label for="floatingInput">Your information</label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Convert to QR</button>
+          <hr class="my-4">
+          <small class="text-muted">By clicking Convert, you agree to the terms of use.</small>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
