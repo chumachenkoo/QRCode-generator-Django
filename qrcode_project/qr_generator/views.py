@@ -12,7 +12,7 @@ def registration(request):
                                 email=request.POST.get('email'),
                                 password=request.POST.get('password'))
 
-        return render(request, 'login.html')
+        return HttpResponseRedirect('/login')
 
     return render(request, 'registration.html')
 
@@ -35,7 +35,7 @@ def login(request):
 
 def logout(request):
     request.session.flush()
-    return render(request, 'login.html')
+    return HttpResponseRedirect('/login')
 
 
 def account(request):
@@ -46,7 +46,7 @@ def account(request):
 
         return render(request, 'account.html', {'data': user, 'qr_codes': qr})
 
-    return render(request, 'login.html')
+    return HttpResponseRedirect('/login')
 
 
 def generator(request):
