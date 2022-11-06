@@ -19,9 +19,11 @@ from qr_generator import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.login),
-    path('registration', views.registration),
-    path('login', views.login),
+    path('', views.get_login),
+    path('get_registration', views.get_registration),
+    path('post_registration', views.post_registration),
+    path('get_login', views.get_login),
+    path('post_login', views.post_login),
     path('logout', views.logout),
     path('account', views.account),
     path('generator', views.generator)

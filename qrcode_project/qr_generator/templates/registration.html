@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 
-{% block body %}
 
+{% block body %}
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5">
-      <div class="col-md-10 mx-auto col-lg-5">
-        <form method="post" class="p-4 p-md-5 border rounded-3 bg-light">
+        <div class="col-md-10 mx-auto col-lg-5">
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Alert!</strong> {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+
+        <form method="post" action="/post_registration" class="p-4 p-md-5 border rounded-3 bg-light">
                 {% csrf_token %}
             <h1 class="h3 mb-3 fw-normal text-center">Please enter data!</h1>
            <div class="form-floating mb-3">

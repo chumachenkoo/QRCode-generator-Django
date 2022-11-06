@@ -1,27 +1,46 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import UserView, QRCodeView
+from django.contrib import messages
+from django.views.decorators.http import require_http_methods
 
 
-def registration(request):
+@require_http_methods("GET")
+def get_registration(request):
     if 'id' in request.session:
         return HttpResponseRedirect('/account')
+    else:
+        return render(request, 'registration.html')
 
-    elif request.method == 'POST':
-        UserView.objects.create(username=request.POST.get('username'),
-                                email=request.POST.get('email'),
-                                password=request.POST.get('password'))
 
-        return HttpResponseRedirect('/login')
+@require_http_methods("POST")
+def post_registration(request):
+    if request.method == 'POST':
+        user = UserView(username=request.POST.get('username'),
+                        email=request.POST.get('email'),
+                        password=request.POST.get('password'))
+
+        if UserView.objects.filter(email=user.email):
+            messages.add_message(request, messages.WARNING, 'User has been registered!')
+            return render(request, 'registration.html')
+        else:
+            user.save()
+            return HttpResponseRedirect('/get_login')
 
     return render(request, 'registration.html')
 
 
-def login(request):
+@require_http_methods("GET")
+def get_login(request):
     if 'id' in request.session:
         return HttpResponseRedirect('/account')
+    else:
+        return render(request, 'login.html')
 
-    elif request.method == 'POST':
+
+@require_http_methods("POST")
+def post_login(request):
+    if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = UserView.objects.get(email=email)
@@ -35,7 +54,7 @@ def login(request):
 
 def logout(request):
     request.session.flush()
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/get_login')
 
 
 def account(request):
@@ -46,7 +65,7 @@ def account(request):
 
         return render(request, 'account.html', {'data': user, 'qr_codes': qr})
 
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/get_login')
 
 
 def generator(request):
@@ -61,4 +80,4 @@ def generator(request):
         else:
             return render(request, 'generator.html')
 
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/get_login')
